@@ -1,12 +1,12 @@
-package jsrdev.consult_hub.api.physician;
+package jsrdev.consult_hub.api.patient;
 
 import jsrdev.consult_hub.api.address.AddressData;
 
-public record RegisterPhysicianData(
+public record RegisterPatientData(
         String name,
         String avatar,
         String email,
-        String document,
-        Specialty specialty,
+        String phoneNumber,
+        String identityDocument,
         AddressData address
 ) { }
