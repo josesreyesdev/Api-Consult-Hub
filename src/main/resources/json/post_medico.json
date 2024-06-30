@@ -1,0 +1,15 @@
+
+{
+  "name": "JSR medico",
+  "photo": "url_image",
+  "mail": "medic@example.com",
+  "document": "123324",
+  "specialty": "ortopedia",
+  "address": {
+    "street": "street 1",
+    "district": "district 1",
+    "city": "Mexico City",
+    "number": "1",
+    "complement": "a"
+  }
+}
