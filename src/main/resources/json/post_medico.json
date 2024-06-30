@@ -1,10 +1,10 @@
 
 {
   "name": "JSR medico",
-  "photo": "url_image",
-  "mail": "medic@example.com",
+  "avatar": "url_image",
+  "email": "medic@example.com",
   "document": "123324",
-  "specialty": "ortopedia",
+  "specialty": "ORTOPEDIA",
   "address": {
     "street": "street 1",
     "district": "district 1",

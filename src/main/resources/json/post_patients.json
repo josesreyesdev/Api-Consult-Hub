@@ -1,0 +1,14 @@
+{
+  "name": "JSR patient",
+  "avatar": "url_image_avatar",
+  "email": "patient@example.com",
+  "phoneNumber": "1231231231",
+  "identityDocument": "123324",
+  "address": {
+    "street": "street 1",
+    "district": "district 1",
+    "city": "Mexico City",
+    "number": "1",
+    "complement": "a"
+  }
+}
