@@ -1,5 +1,6 @@
 package jsrdev.consult_hub.api.controller;
 
+import jsrdev.consult_hub.api.physician.RegisterPhysicianData;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,8 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PhysicianController {
 
     @PostMapping
-    public void registerPhysician(@RequestBody String parameter) {
-        System.out.println("request llegó correctamente");
-        System.out.println(parameter);
+    public void registerPhysician(@RequestBody RegisterPhysicianData registerPhysicianData) {
+        System.out.println(registerPhysicianData);
     }
 }
