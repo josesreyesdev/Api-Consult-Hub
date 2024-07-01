@@ -4,6 +4,7 @@
   "avatar": "url_image",
   "email": "medic@example.com",
   "document": "123324",
+  "phone_number": "4125123509",
   "specialty": "ORTOPEDIA",
   "address": {
     "street": "street 1",
