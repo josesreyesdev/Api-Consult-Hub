@@ -12,6 +12,8 @@ public record RegisterPatientData(
         @NotBlank String avatar,
         @NotBlank @Email String email,
         @NotBlank @JsonProperty("phone_number") String phoneNumber,
-        @NotBlank @JsonProperty("identity_document") String identityDocument,
+        @NotBlank //@Pattern(regexp = "\\d{3}\\.?\\d{3}\\.?\\d{3}\\-?\\d{2}")
+        @JsonProperty("identity_document") String identityDocument,
         @NotNull @Valid AddressData address
-) { }
+) {
+}
