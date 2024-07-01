@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "id") // comparar
+@EqualsAndHashCode(of = "id")
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,8 +20,19 @@ public class Patient {
     private String name;
     private String avatar;
     private String email;
+    @Column(name = "phone_number") //name in DB
     private String phoneNumber;
+    @Column(name = "identity_document")
     private String identityDocument;
     @Embedded
     private Address address;
+
+    public Patient(RegisterPatientData registerPatientData) {
+        this.name = registerPatientData.name();
+        this.avatar = registerPatientData.avatar();
+        this.email = registerPatientData.email();
+        this.phoneNumber = registerPatientData.phoneNumber();
+        this.identityDocument = registerPatientData.identityDocument();
+        this.address = new Address(registerPatientData.address());
+    }
 }

@@ -27,4 +27,12 @@ public class Physician {
     private Address address;
 
 
+    public Physician(RegisterPhysicianData registerPhysicianData) {
+        this.name = registerPhysicianData.name();
+        this.avatar = registerPhysicianData.avatar();
+        this.email = registerPhysicianData.email();
+        this.document = registerPhysicianData.document();
+        this.specialty = registerPhysicianData.specialty();
+        this.address = new Address(registerPhysicianData.address());
+    }
 }

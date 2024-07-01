@@ -1,6 +1,9 @@
 package jsrdev.consult_hub.api.controller;
 
+import jsrdev.consult_hub.api.patient.Patient;
+import jsrdev.consult_hub.api.patient.PatientRepository;
 import jsrdev.consult_hub.api.patient.RegisterPatientData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,8 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/patients")
 public class PatientController {
 
+    @Autowired
+    private PatientRepository patientRepository;
+
     @PostMapping
     public void registerPatient(@RequestBody RegisterPatientData registerPatientData) {
-        System.out.println(registerPatientData);
+        patientRepository.save(new Patient(registerPatientData));
     }
 }
