@@ -1,5 +1,6 @@
 package jsrdev.consult_hub.api.controller;
 
+import jakarta.validation.Valid;
 import jsrdev.consult_hub.api.patient.Patient;
 import jsrdev.consult_hub.api.patient.PatientRepository;
 import jsrdev.consult_hub.api.patient.RegisterPatientData;
@@ -17,7 +18,7 @@ public class PatientController {
     private PatientRepository patientRepository;
 
     @PostMapping
-    public void registerPatient(@RequestBody RegisterPatientData registerPatientData) {
+    public void registerPatient(@RequestBody @Valid RegisterPatientData registerPatientData) {
         patientRepository.save(new Patient(registerPatientData));
     }
 }

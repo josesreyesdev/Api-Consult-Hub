@@ -1,9 +1,11 @@
 package jsrdev.consult_hub.api.address;
 
+import jakarta.validation.constraints.NotBlank;
+
 public record AddressData(
-        String street,
-        String district,
-        String city,
-        String number,
-        String complement
+        @NotBlank String street,
+        @NotBlank String district,
+        @NotBlank String city,
+        @NotBlank String number,
+        @NotBlank String complement
 ) { }
