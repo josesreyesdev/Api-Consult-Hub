@@ -8,9 +8,12 @@
   "specialty": "ORTOPEDIA",
   "address": {
     "street": "street 1",
-    "district": "district 1",
+    "state_or_province": "Mexico City",
+    "municipality_or_delegation": "delegation 1",
     "city": "Mexico City",
+    "zip_code": "10000",
+    "country": "Mexico",
     "number": "1",
-    "complement": "a"
+    "complement": "aaa"
   }
 }

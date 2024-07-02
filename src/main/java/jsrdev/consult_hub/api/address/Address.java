@@ -1,5 +1,6 @@
 package jsrdev.consult_hub.api.address;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,15 +12,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Address {
     private String street;
-    private String district;
+    @Column(name = "state_or_province")
+    private String stateOrProvince;
+    @Column(name = "municipality_or_delegation")
+    private String municipalityOrDelegation;
     private String city;
+    @Column(name = "zip_code")
+    private String zipCode;
+    private String country;
     private String number;
     private String complement;
 
     public Address(AddressData addressData) {
         this.street = addressData.street();
-        this.district = addressData.district();
+        this.stateOrProvince = addressData.stateOrProvince();
+        this.municipalityOrDelegation = addressData.municipalityOrDelegation();
         this.city = addressData.city();
+        this.zipCode = addressData.zipCode();
+        this.country = addressData.country();
         this.number = addressData.number();
         this.complement = addressData.complement();
     }
