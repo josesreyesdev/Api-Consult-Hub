@@ -1,0 +1,38 @@
+package jsrdev.consult_hub.api.patient;
+
+import jakarta.persistence.*;
+import jsrdev.consult_hub.api.address.Address;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Table(name = "patients")
+@Entity(name = "Patient")
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
+public class Patient {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    private String avatar;
+    private String email;
+    @Column(name = "phone_number") //name in DB
+    private String phoneNumber;
+    @Column(name = "identity_document")
+    private String identityDocument;
+    @Embedded
+    private Address address;
+
+    public Patient(RegisterPatientData registerPatientData) {
+        this.name = registerPatientData.name();
+        this.avatar = registerPatientData.avatar();
+        this.email = registerPatientData.email();
+        this.phoneNumber = registerPatientData.phoneNumber();
+        this.identityDocument = registerPatientData.identityDocument();
+        this.address = new Address(registerPatientData.address());
+    }
+}

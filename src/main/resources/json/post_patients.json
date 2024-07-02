@@ -1,14 +1,17 @@
 {
-  "name": "JSR patient",
+  "name": "JSR patient 02",
   "avatar": "url_image_avatar",
   "email": "patient@example.com",
-  "phoneNumber": "1231231231",
-  "identityDocument": "123324",
+  "phone_number": "1231231231",
+  "identity_document": "020202",
   "address": {
     "street": "street 1",
-    "district": "district 1",
+    "state_or_province": "Mexico City",
+    "municipality_or_delegation": "delegation 1",
     "city": "Mexico City",
+    "zip_code": "10000",
+    "country": "Mexico",
     "number": "1",
-    "complement": "a"
+    "complement": "aaa"
   }
 }
