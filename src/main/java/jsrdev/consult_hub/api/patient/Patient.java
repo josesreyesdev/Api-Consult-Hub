@@ -17,13 +17,17 @@ public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String avatar;
     private String email;
+
     @Column(name = "phone_number") //name in DB
     private String phoneNumber;
+
     @Column(name = "identity_document")
     private String identityDocument;
+
     @Embedded
     private Address address;
 

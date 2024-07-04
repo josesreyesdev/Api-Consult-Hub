@@ -17,14 +17,18 @@ public class Physician {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String avatar;
     private String email;
     private String document;
+
     @Column(name = "phone_number") //name in DB
     private String phoneNumber;
+
     @Enumerated(EnumType.STRING)
     private Specialty specialty;
+
     @Embedded
     private Address address;
 
