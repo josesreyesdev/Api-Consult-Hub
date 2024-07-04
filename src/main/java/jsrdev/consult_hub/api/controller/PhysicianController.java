@@ -6,9 +6,9 @@ import jsrdev.consult_hub.api.physician.PhysicianListData;
 import jsrdev.consult_hub.api.physician.PhysicianRepository;
 import jsrdev.consult_hub.api.physician.RegisterPhysicianData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/physicians")
@@ -23,8 +23,8 @@ public class PhysicianController {
     }
 
     @GetMapping
-    public List<PhysicianListData> getListOfPhysicians() {
-        return physicianRepository.findAll().stream()
-                .map(PhysicianListData::new).toList();
+    public Page<PhysicianListData> getListOfPhysicians(Pageable pagination) {
+        return physicianRepository.findAll(pagination)
+                .map(PhysicianListData::new);
     }
 }
