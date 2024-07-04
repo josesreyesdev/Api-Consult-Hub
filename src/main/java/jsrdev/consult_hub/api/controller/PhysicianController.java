@@ -1,7 +1,9 @@
 package jsrdev.consult_hub.api.controller;
 
 import jakarta.validation.Valid;
+import jsrdev.consult_hub.api.patient.PatientRepository;
 import jsrdev.consult_hub.api.physician.Physician;
+import jsrdev.consult_hub.api.physician.PhysicianListData;
 import jsrdev.consult_hub.api.physician.PhysicianRepository;
 import jsrdev.consult_hub.api.physician.RegisterPhysicianData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,8 @@ public class PhysicianController {
     }
 
     @GetMapping
-    public List<Physician> getListOfPhysicians() {
-        return physicianRepository.findAll();
+    public List<PhysicianListData> getListOfPhysicians() {
+        return physicianRepository.findAll().stream()
+                .map(PhysicianListData::new).toList();
     }
 }
