@@ -1,7 +1,6 @@
 package jsrdev.consult_hub.api.controller;
 
 import jakarta.validation.Valid;
-import jsrdev.consult_hub.api.patient.PatientRepository;
 import jsrdev.consult_hub.api.physician.Physician;
 import jsrdev.consult_hub.api.physician.PhysicianListData;
 import jsrdev.consult_hub.api.physician.PhysicianRepository;
