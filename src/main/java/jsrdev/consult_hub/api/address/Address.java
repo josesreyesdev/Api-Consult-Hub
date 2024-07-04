@@ -11,14 +11,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Address {
+
     private String street;
+
     @Column(name = "state_or_province")
     private String stateOrProvince;
+
     @Column(name = "municipality_or_delegation")
     private String municipalityOrDelegation;
+
     private String city;
+
     @Column(name = "zip_code")
     private String zipCode;
+
     private String country;
     private String number;
     private String complement;

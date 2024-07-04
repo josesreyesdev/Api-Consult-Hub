@@ -5,10 +5,9 @@ import jsrdev.consult_hub.api.patient.Patient;
 import jsrdev.consult_hub.api.patient.PatientRepository;
 import jsrdev.consult_hub.api.patient.RegisterPatientData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/patients")
@@ -21,4 +20,10 @@ public class PatientController {
     public void registerPatient(@RequestBody @Valid RegisterPatientData registerPatientData) {
         patientRepository.save(new Patient(registerPatientData));
     }
+
+    @GetMapping
+    public List<Patient> getListOfPatients() {
+        return patientRepository.findAll();
+    }
+
 }

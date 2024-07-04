@@ -5,10 +5,9 @@ import jsrdev.consult_hub.api.physician.Physician;
 import jsrdev.consult_hub.api.physician.PhysicianRepository;
 import jsrdev.consult_hub.api.physician.RegisterPhysicianData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/physicians")
@@ -20,5 +19,10 @@ public class PhysicianController {
     @PostMapping
     public void registerPhysician(@RequestBody @Valid RegisterPhysicianData registerPhysicianData) {
         physicianRepository.save(new Physician(registerPhysicianData));
+    }
+
+    @GetMapping
+    public List<Physician> getListOfPhysicians() {
+        return physicianRepository.findAll();
     }
 }
