@@ -2,6 +2,7 @@ package jsrdev.consult_hub.api.controller;
 
 import jakarta.validation.Valid;
 import jsrdev.consult_hub.api.patient.Patient;
+import jsrdev.consult_hub.api.patient.PatientListData;
 import jsrdev.consult_hub.api.patient.PatientRepository;
 import jsrdev.consult_hub.api.patient.RegisterPatientData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,9 @@ public class PatientController {
     }
 
     @GetMapping
-    public List<Patient> getListOfPatients() {
-        return patientRepository.findAll();
+    public List<PatientListData> getListOfPatients() {
+        return patientRepository.findAll().stream()
+                .map(PatientListData::new).toList();
     }
 
 }
