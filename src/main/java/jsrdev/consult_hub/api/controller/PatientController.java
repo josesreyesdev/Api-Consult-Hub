@@ -6,9 +6,9 @@ import jsrdev.consult_hub.api.patient.PatientListData;
 import jsrdev.consult_hub.api.patient.PatientRepository;
 import jsrdev.consult_hub.api.patient.RegisterPatientData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/patients")
@@ -23,9 +23,9 @@ public class PatientController {
     }
 
     @GetMapping
-    public List<PatientListData> getListOfPatients() {
-        return patientRepository.findAll().stream()
-                .map(PatientListData::new).toList();
+    public Page<PatientListData> getListOfPatients(Pageable pagination) {
+        return patientRepository.findAll(pagination)
+                .map(PatientListData::new);
     }
 
 }
