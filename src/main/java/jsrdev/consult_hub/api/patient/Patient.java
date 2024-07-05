@@ -28,10 +28,13 @@ public class Patient {
     @Column(name = "identity_document")
     private String identityDocument;
 
+    private Boolean active;
+
     @Embedded
     private Address address;
 
     public Patient(RegisterPatientData registerPatientData) {
+        this.active = true;
         this.name = registerPatientData.name();
         this.avatar = registerPatientData.avatar();
         this.email = registerPatientData.email();
@@ -47,11 +50,15 @@ public class Patient {
         if (updatePatientData.avatar() != null) {
             this.avatar = updatePatientData.avatar();
         }
-        if (updatePatientData.identityDocument() != null) {
-            this.identityDocument = updatePatientData.identityDocument();
+        if (updatePatientData.phoneNumber() != null) {
+            this.phoneNumber = updatePatientData.phoneNumber();
         }
         if (updatePatientData.addressData() != null) {
             this.address = address.updatePatientData(updatePatientData.addressData());
         }
+    }
+
+    public void deactivatePatient() {
+        this.active = false;
     }
 }

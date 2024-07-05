@@ -22,7 +22,7 @@ public class PatientController {
 
     @GetMapping
     public Page<PatientListData> getListOfPatients(Pageable pagination) {
-        return patientRepository.findAll(pagination)
+        return patientRepository.findByActiveTrue(pagination)
                 .map(PatientListData::new);
     }
 
@@ -31,6 +31,13 @@ public class PatientController {
     public void updatePatient(@RequestBody @Valid UpdatePatientData updatePatientData) {
         Patient patient = patientRepository.getReferenceById(updatePatientData.id());
         patient.updatePatientData(updatePatientData);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void deactivatePatient(@PathVariable Long id) {
+        Patient patient = patientRepository.getReferenceById(id);
+        patient.deactivatePatient();
     }
 
 }
