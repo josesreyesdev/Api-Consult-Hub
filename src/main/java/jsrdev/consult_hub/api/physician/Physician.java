@@ -40,6 +40,21 @@ public class Physician {
         this.document = registerPhysicianData.document();
         this.phoneNumber = registerPhysicianData.phoneNumber();
         this.specialty = registerPhysicianData.specialty();
-        this.address = new Address(registerPhysicianData.address());
+        this.address = new Address(registerPhysicianData.addressData());
+    }
+
+    public void updatePhysicianData(UpdatePhysicianData updatePhysicianData) {
+        if (updatePhysicianData.name() != null) {
+            this.name = updatePhysicianData.name();
+        }
+        if (updatePhysicianData.avatar() != null) {
+            this.avatar = updatePhysicianData.avatar();
+        }
+        if (updatePhysicianData.document() != null) {
+            this.document = updatePhysicianData.document();
+        }
+        if (updatePhysicianData.addressData() != null) {
+            this.address = address.updatePhysicianData(updatePhysicianData.addressData());
+        }
     }
 }

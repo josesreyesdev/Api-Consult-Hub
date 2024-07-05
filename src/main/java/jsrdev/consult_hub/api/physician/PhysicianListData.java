@@ -1,6 +1,7 @@
 package jsrdev.consult_hub.api.physician;
 
 public record PhysicianListData(
+        Long id,
         String name,
         String specialty,
         String document,
@@ -8,9 +9,6 @@ public record PhysicianListData(
 ) {
 
     public PhysicianListData(Physician physician) {
-        this(
-                physician.getName(), physician.getSpecialty().toString(),
-                physician.getDocument(), physician.getEmail()
-        );
+        this(physician.getId(), physician.getName(), physician.getSpecialty().toString(), physician.getDocument(), physician.getEmail());
     }
 }
