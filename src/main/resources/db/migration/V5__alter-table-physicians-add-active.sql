@@ -1,3 +1,5 @@
-ALTER TABLE physicians ADD active tinyint;
+ALTER TABLE physicians ADD COLUMN active TINYINT;
 
-UPDATE physicians set active = 1;
+UPDATE physicians SET active = 1;
+
+ALTER TABLE physicians MODIFY active TINYINT NOT NULL ;
