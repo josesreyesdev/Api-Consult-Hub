@@ -37,6 +37,21 @@ public class Patient {
         this.email = registerPatientData.email();
         this.phoneNumber = registerPatientData.phoneNumber();
         this.identityDocument = registerPatientData.identityDocument();
-        this.address = new Address(registerPatientData.address());
+        this.address = new Address(registerPatientData.addressData());
+    }
+
+    public void updatePatientData(UpdatePatientData updatePatientData) {
+        if (updatePatientData.name() != null) {
+            this.name = updatePatientData.name();
+        }
+        if (updatePatientData.avatar() != null) {
+            this.avatar = updatePatientData.avatar();
+        }
+        if (updatePatientData.identityDocument() != null) {
+            this.identityDocument = updatePatientData.identityDocument();
+        }
+        if (updatePatientData.addressData() != null) {
+            this.address = address.updatePatientData(updatePatientData.addressData());
+        }
     }
 }
