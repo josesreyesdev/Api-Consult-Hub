@@ -26,7 +26,7 @@ public class PhysicianController {
      * */
     @GetMapping
     public Page<PhysicianListData> getListOfPhysicians(@PageableDefault(size = 15) Pageable pagination) {
-        return physicianRepository.findAll(pagination)
+        return physicianRepository.findByActiveTrue(pagination)
                 .map(PhysicianListData::new);
     }
 
@@ -39,10 +39,17 @@ public class PhysicianController {
     }
 
     /* Borrar un physician en la BD. metodo no recomendado */
-    @DeleteMapping("/{id}")
+    /*@DeleteMapping("/{id}")
     @Transactional
     public void deletePhysician(@PathVariable Long id) {
         Physician physician = physicianRepository.getReferenceById(id);
         physicianRepository.delete(physician);
+    } */
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void deactivatePhysician(@PathVariable Long id) {
+        Physician physician = physicianRepository.getReferenceById(id);
+        physician.deactivatePhysician();
     }
 }

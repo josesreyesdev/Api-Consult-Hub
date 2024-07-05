@@ -23,6 +23,8 @@ public class Physician {
     private String email;
     private String document;
 
+    private Boolean active;
+
     @Column(name = "phone_number") //name in DB
     private String phoneNumber;
 
@@ -34,6 +36,7 @@ public class Physician {
 
 
     public Physician(RegisterPhysicianData registerPhysicianData) {
+        this.active = true;
         this.name = registerPhysicianData.name();
         this.avatar = registerPhysicianData.avatar();
         this.email = registerPhysicianData.email();
@@ -56,5 +59,9 @@ public class Physician {
         if (updatePhysicianData.addressData() != null) {
             this.address = address.updatePhysicianData(updatePhysicianData.addressData());
         }
+    }
+
+    public void deactivatePhysician() {
+        this.active = false;
     }
 }
