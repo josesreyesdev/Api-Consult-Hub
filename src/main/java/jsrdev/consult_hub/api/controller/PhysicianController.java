@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -48,8 +49,9 @@ public class PhysicianController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public void deactivatePhysician(@PathVariable Long id) {
+    public ResponseEntity deactivatePhysician(@PathVariable Long id) {
         Physician physician = physicianRepository.getReferenceById(id);
         physician.deactivatePhysician();
+        return ResponseEntity.noContent().build();
     }
 }
