@@ -22,8 +22,8 @@ public class PhysicianController {
     }
 
     /* Con @PageableDefault() configuramos algunos valores por defecto si es que el front no
-    * envia estos parametros
-    * */
+     * envia estos parametros
+     * */
     @GetMapping
     public Page<PhysicianListData> getListOfPhysicians(@PageableDefault(size = 15) Pageable pagination) {
         return physicianRepository.findAll(pagination)
@@ -31,10 +31,18 @@ public class PhysicianController {
     }
 
     @PutMapping
-    @Transactional // libera la transaccion para hacer un commit en la BD o hace un rollback si hubo alguna inconsistencia de datos
+    @Transactional
+    // libera la transaccion para hacer un commit en la BD o hace un rollback si hubo alguna inconsistencia de datos
     public void updatePhysician(@RequestBody @Valid UpdatePhysicianData updatePhysicianData) {
         Physician physician = physicianRepository.getReferenceById(updatePhysicianData.id());
         physician.updatePhysicianData(updatePhysicianData);
     }
 
+    /* Borrar un physician en la BD. metodo no recomendado */
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void deletePhysician(@PathVariable Long id) {
+        Physician physician = physicianRepository.getReferenceById(id);
+        physicianRepository.delete(physician);
+    }
 }
