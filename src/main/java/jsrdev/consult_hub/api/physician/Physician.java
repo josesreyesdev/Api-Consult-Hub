@@ -23,6 +23,8 @@ public class Physician {
     private String email;
     private String document;
 
+    private Boolean active;
+
     @Column(name = "phone_number") //name in DB
     private String phoneNumber;
 
@@ -34,12 +36,32 @@ public class Physician {
 
 
     public Physician(RegisterPhysicianData registerPhysicianData) {
+        this.active = true;
         this.name = registerPhysicianData.name();
         this.avatar = registerPhysicianData.avatar();
         this.email = registerPhysicianData.email();
         this.document = registerPhysicianData.document();
         this.phoneNumber = registerPhysicianData.phoneNumber();
         this.specialty = registerPhysicianData.specialty();
-        this.address = new Address(registerPhysicianData.address());
+        this.address = new Address(registerPhysicianData.addressData());
+    }
+
+    public void updatePhysicianData(UpdatePhysicianData updatePhysicianData) {
+        if (updatePhysicianData.name() != null) {
+            this.name = updatePhysicianData.name();
+        }
+        if (updatePhysicianData.avatar() != null) {
+            this.avatar = updatePhysicianData.avatar();
+        }
+        if (updatePhysicianData.document() != null) {
+            this.document = updatePhysicianData.document();
+        }
+        if (updatePhysicianData.addressData() != null) {
+            this.address = address.updatePhysicianData(updatePhysicianData.addressData());
+        }
+    }
+
+    public void deactivatePhysician() {
+        this.active = false;
     }
 }

@@ -39,4 +39,28 @@ public class Address {
         this.number = addressData.number();
         this.complement = addressData.complement();
     }
+
+    public Address updatePhysicianData(AddressData addressData) {
+        this.street = addressData.street();
+        this.stateOrProvince = addressData.stateOrProvince();
+        this.municipalityOrDelegation = addressData.municipalityOrDelegation();
+        this.city = addressData.city();
+        this.zipCode = addressData.zipCode();
+        this.country = addressData.country();
+        this.number = addressData.number();
+        this.complement = addressData.complement();
+        return this;
+    }
+
+    public Address updatePatientData(AddressData addressData) {
+        this.street = addressData.street();
+        this.stateOrProvince = addressData.stateOrProvince();
+        this.municipalityOrDelegation = addressData.municipalityOrDelegation();
+        this.city = addressData.city();
+        this.zipCode = addressData.zipCode();
+        this.country = addressData.country();
+        this.number = addressData.number();
+        this.complement = addressData.complement();
+        return this;
+    }
 }

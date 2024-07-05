@@ -15,5 +15,6 @@ public record RegisterPhysicianData(
         @NotBlank @JsonProperty("phone_number") String phoneNumber,
         @NotBlank @Pattern(regexp = "\\d{4,6}") String document, // solo debe contener entre 4 y 6 digitos numericos
         @NotNull Specialty specialty,
-        @NotNull @Valid AddressData address // notnull para un objeto
+        @JsonProperty("address")
+        @NotNull @Valid AddressData addressData // notnull para un objeto
 ) { }

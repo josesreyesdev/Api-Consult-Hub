@@ -1,10 +1,8 @@
 package jsrdev.consult_hub.api.controller;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import jsrdev.consult_hub.api.patient.Patient;
-import jsrdev.consult_hub.api.patient.PatientListData;
-import jsrdev.consult_hub.api.patient.PatientRepository;
-import jsrdev.consult_hub.api.patient.RegisterPatientData;
+import jsrdev.consult_hub.api.patient.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,8 +22,22 @@ public class PatientController {
 
     @GetMapping
     public Page<PatientListData> getListOfPatients(Pageable pagination) {
-        return patientRepository.findAll(pagination)
+        return patientRepository.findByActiveTrue(pagination)
                 .map(PatientListData::new);
+    }
+
+    @PutMapping
+    @Transactional
+    public void updatePatient(@RequestBody @Valid UpdatePatientData updatePatientData) {
+        Patient patient = patientRepository.getReferenceById(updatePatientData.id());
+        patient.updatePatientData(updatePatientData);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void deactivatePatient(@PathVariable Long id) {
+        Patient patient = patientRepository.getReferenceById(id);
+        patient.deactivatePatient();
     }
 
 }
