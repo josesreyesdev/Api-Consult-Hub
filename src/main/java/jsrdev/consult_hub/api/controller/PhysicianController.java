@@ -10,6 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/physicians")
@@ -19,47 +22,39 @@ public class PhysicianController {
     private PhysicianRepository physicianRepository;
 
     @PostMapping
-    public void registerPhysician(@RequestBody @Valid RegisterPhysicianData registerPhysicianData) {
-        physicianRepository.save(new Physician(registerPhysicianData));
+    public ResponseEntity<ResponsePhysicianData> registerPhysician(
+            @RequestBody @Valid RegisterPhysicianData registerPhysicianData,
+            UriComponentsBuilder uriComponentsBuilder
+    ) {
+
+        var physician = physicianRepository.save(new Physician(registerPhysicianData));
+
+        ResponsePhysicianData responsePhysicianData = returnResponsePhysicianData(physician);
+        URI url = uriComponentsBuilder.path("/physicians/{id}")
+                .buildAndExpand(physician.getId())
+                .toUri();
+        return ResponseEntity.created(url).body(responsePhysicianData);
+        // status 201-created
+        // url - donde encontrar el medico ej: http://localhost:8080/physicians/xx
     }
 
     /* Con @PageableDefault() configuramos algunos valores por defecto si es que el front no
      * envia estos parametros
      * */
     @GetMapping
-    public Page<PhysicianListData> getListOfPhysicians(@PageableDefault(size = 15) Pageable pagination) {
-        return physicianRepository.findByActiveTrue(pagination)
-                .map(PhysicianListData::new);
+    public ResponseEntity<Page<PhysicianListData>> getListOfPhysicians(@PageableDefault(size = 15) Pageable pagination) {
+        return ResponseEntity.ok(physicianRepository.findByActiveTrue(pagination)
+                .map(PhysicianListData::new));
     }
 
     @PutMapping
     @Transactional
     // libera la transaccion para hacer un commit en la BD o hace un rollback si hubo alguna inconsistencia de datos
-    public ResponseEntity updatePhysician(@RequestBody @Valid UpdatePhysicianData updatePhysicianData) {
+    public ResponseEntity<ResponsePhysicianData> updatePhysician(@RequestBody @Valid UpdatePhysicianData updatePhysicianData) {
         Physician physician = physicianRepository.getReferenceById(updatePhysicianData.id());
         physician.updatePhysicianData(updatePhysicianData);
 
-        return ResponseEntity.ok(
-                new ResponsePhysicianData(
-                        physician.getId(),
-                        physician.getAvatar(),
-                        physician.getName(),
-                        physician.getEmail(),
-                        physician.getPhoneNumber(),
-                        physician.getDocument(),
-                        physician.getSpecialty().toString(),
-                        new AddressData(
-                                physician.getAddress().getStreet(),
-                                physician.getAddress().getStateOrProvince(),
-                                physician.getAddress().getMunicipalityOrDelegation(),
-                                physician.getAddress().getCity(),
-                                physician.getAddress().getZipCode(),
-                                physician.getAddress().getCountry(),
-                                physician.getAddress().getNumber(),
-                                physician.getAddress().getComplement()
-                        )
-                )
-        ); //status 200
+        return ResponseEntity.ok(returnResponsePhysicianData(physician)); //status 200
     }
 
     /* Borrar un physician en la BD. metodo no recomendado */
@@ -72,9 +67,39 @@ public class PhysicianController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity deactivatePhysician(@PathVariable Long id) {
+    public ResponseEntity<Void> deactivatePhysician(@PathVariable Long id) {
         Physician physician = physicianRepository.getReferenceById(id);
         physician.deactivatePhysician();
         return ResponseEntity.noContent().build(); // status 204
+    }
+
+    // Obtener un item por su id
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponsePhysicianData> getPhysicianById(@PathVariable Long id) {
+        Physician physician = physicianRepository.getReferenceById(id);
+        var responsePhysician = returnResponsePhysicianData(physician);
+        return ResponseEntity.ok(responsePhysician);
+    }
+
+    private ResponsePhysicianData returnResponsePhysicianData(Physician physician) {
+        return new ResponsePhysicianData(
+                physician.getId(),
+                physician.getAvatar(),
+                physician.getName(),
+                physician.getEmail(),
+                physician.getPhoneNumber(),
+                physician.getDocument(),
+                physician.getSpecialty().toString(),
+                new AddressData(
+                        physician.getAddress().getStreet(),
+                        physician.getAddress().getStateOrProvince(),
+                        physician.getAddress().getMunicipalityOrDelegation(),
+                        physician.getAddress().getCity(),
+                        physician.getAddress().getZipCode(),
+                        physician.getAddress().getCountry(),
+                        physician.getAddress().getNumber(),
+                        physician.getAddress().getComplement()
+                )
+        );
     }
 }
