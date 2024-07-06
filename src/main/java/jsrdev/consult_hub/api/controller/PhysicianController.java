@@ -2,6 +2,7 @@ package jsrdev.consult_hub.api.controller;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import jsrdev.consult_hub.api.address.AddressData;
 import jsrdev.consult_hub.api.physician.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,9 +35,31 @@ public class PhysicianController {
     @PutMapping
     @Transactional
     // libera la transaccion para hacer un commit en la BD o hace un rollback si hubo alguna inconsistencia de datos
-    public void updatePhysician(@RequestBody @Valid UpdatePhysicianData updatePhysicianData) {
+    public ResponseEntity updatePhysician(@RequestBody @Valid UpdatePhysicianData updatePhysicianData) {
         Physician physician = physicianRepository.getReferenceById(updatePhysicianData.id());
         physician.updatePhysicianData(updatePhysicianData);
+
+        return ResponseEntity.ok(
+                new ResponsePhysicianData(
+                        physician.getId(),
+                        physician.getAvatar(),
+                        physician.getName(),
+                        physician.getEmail(),
+                        physician.getPhoneNumber(),
+                        physician.getDocument(),
+                        physician.getSpecialty().toString(),
+                        new AddressData(
+                                physician.getAddress().getStreet(),
+                                physician.getAddress().getStateOrProvince(),
+                                physician.getAddress().getMunicipalityOrDelegation(),
+                                physician.getAddress().getCity(),
+                                physician.getAddress().getZipCode(),
+                                physician.getAddress().getCountry(),
+                                physician.getAddress().getNumber(),
+                                physician.getAddress().getComplement()
+                        )
+                )
+        ); //status 200
     }
 
     /* Borrar un physician en la BD. metodo no recomendado */
@@ -52,6 +75,6 @@ public class PhysicianController {
     public ResponseEntity deactivatePhysician(@PathVariable Long id) {
         Physician physician = physicianRepository.getReferenceById(id);
         physician.deactivatePhysician();
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().build(); // status 204
     }
 }
