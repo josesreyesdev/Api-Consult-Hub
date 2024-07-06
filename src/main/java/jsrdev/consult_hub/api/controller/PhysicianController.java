@@ -2,7 +2,6 @@ package jsrdev.consult_hub.api.controller;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import jsrdev.consult_hub.api.address.AddressData;
 import jsrdev.consult_hub.api.physician.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,10 +28,11 @@ public class PhysicianController {
 
         var physician = physicianRepository.save(new Physician(registerPhysicianData));
 
-        ResponsePhysicianData responsePhysicianData = returnResponsePhysicianData(physician);
+        ResponsePhysicianData responsePhysicianData = new ResponsePhysicianData(physician);
         URI url = uriComponentsBuilder.path("/physicians/{id}")
                 .buildAndExpand(physician.getId())
                 .toUri();
+
         return ResponseEntity.created(url).body(responsePhysicianData);
         // status 201-created
         // url - donde encontrar el medico ej: http://localhost:8080/physicians/xx
@@ -43,8 +43,9 @@ public class PhysicianController {
      * */
     @GetMapping
     public ResponseEntity<Page<PhysicianListData>> getListOfPhysicians(@PageableDefault(size = 15) Pageable pagination) {
-        return ResponseEntity.ok(physicianRepository.findByActiveTrue(pagination)
-                .map(PhysicianListData::new));
+        var page = physicianRepository.findByActiveTrue(pagination)
+                .map(PhysicianListData::new);
+        return ResponseEntity.ok(page); // status - 200 - ok
     }
 
     @PutMapping
@@ -54,7 +55,7 @@ public class PhysicianController {
         Physician physician = physicianRepository.getReferenceById(updatePhysicianData.id());
         physician.updatePhysicianData(updatePhysicianData);
 
-        return ResponseEntity.ok(returnResponsePhysicianData(physician)); //status 200
+        return ResponseEntity.ok(new ResponsePhysicianData(physician)); //status - 200 - ok
     }
 
     /* Borrar un physician en la BD. metodo no recomendado */
@@ -77,29 +78,7 @@ public class PhysicianController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponsePhysicianData> getPhysicianById(@PathVariable Long id) {
         Physician physician = physicianRepository.getReferenceById(id);
-        var responsePhysician = returnResponsePhysicianData(physician);
-        return ResponseEntity.ok(responsePhysician);
-    }
-
-    private ResponsePhysicianData returnResponsePhysicianData(Physician physician) {
-        return new ResponsePhysicianData(
-                physician.getId(),
-                physician.getAvatar(),
-                physician.getName(),
-                physician.getEmail(),
-                physician.getPhoneNumber(),
-                physician.getDocument(),
-                physician.getSpecialty().toString(),
-                new AddressData(
-                        physician.getAddress().getStreet(),
-                        physician.getAddress().getStateOrProvince(),
-                        physician.getAddress().getMunicipalityOrDelegation(),
-                        physician.getAddress().getCity(),
-                        physician.getAddress().getZipCode(),
-                        physician.getAddress().getCountry(),
-                        physician.getAddress().getNumber(),
-                        physician.getAddress().getComplement()
-                )
-        );
+        var responsePhysician = new ResponsePhysicianData(physician);
+        return ResponseEntity.ok(responsePhysician); // Status - 200 - success
     }
 }
