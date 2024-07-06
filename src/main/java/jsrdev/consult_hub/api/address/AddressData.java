@@ -20,4 +20,17 @@ public record AddressData(
         @NotBlank String country,
         @NotBlank String number,
         @NotBlank String complement
-) { }
+) {
+        public AddressData(Address address) {
+                this(
+                        address.getStreet(),
+                        address.getStateOrProvince(),
+                        address.getMunicipalityOrDelegation(),
+                        address.getCity(),
+                        address.getZipCode(),
+                        address.getCountry(),
+                        address.getNumber(),
+                        address.getComplement()
+                );
+        }
+}

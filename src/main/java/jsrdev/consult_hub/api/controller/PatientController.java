@@ -6,7 +6,11 @@ import jsrdev.consult_hub.api.patient.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/patients")
@@ -16,28 +20,47 @@ public class PatientController {
     private PatientRepository patientRepository;
 
     @PostMapping
-    public void registerPatient(@RequestBody @Valid RegisterPatientData registerPatientData) {
-        patientRepository.save(new Patient(registerPatientData));
+    public ResponseEntity<ResponsePatientData> registerPatient(
+            @RequestBody @Valid RegisterPatientData registerPatientData,
+            UriComponentsBuilder uriComponentsBuilder
+    ) {
+        var patient = patientRepository.save(new Patient(registerPatientData));
+
+        ResponsePatientData responsePatientData = new ResponsePatientData(patient);
+        URI url = uriComponentsBuilder.
+                path("/patients/{id}").
+                buildAndExpand(patient.getId()).toUri();
+
+        return ResponseEntity.created(url).body(responsePatientData); // status - 201 - created
     }
 
     @GetMapping
-    public Page<PatientListData> getListOfPatients(Pageable pagination) {
-        return patientRepository.findByActiveTrue(pagination)
+    public ResponseEntity<Page<PatientListData>> getListOfPatients(Pageable pagination) {
+        var page = patientRepository.findByActiveTrue(pagination)
                 .map(PatientListData::new);
+        return ResponseEntity.ok(page); // Status - 200 - success
     }
 
     @PutMapping
     @Transactional
-    public void updatePatient(@RequestBody @Valid UpdatePatientData updatePatientData) {
+    public ResponseEntity<ResponsePatientData> updatePatient(@RequestBody @Valid UpdatePatientData updatePatientData) {
         Patient patient = patientRepository.getReferenceById(updatePatientData.id());
         patient.updatePatientData(updatePatientData);
+
+        return ResponseEntity.ok(new ResponsePatientData(patient)); // status - 200
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public void deactivatePatient(@PathVariable Long id) {
+    public ResponseEntity<Void> deactivatePatient(@PathVariable Long id) {
         Patient patient = patientRepository.getReferenceById(id);
         patient.deactivatePatient();
+        return ResponseEntity.noContent().build(); // status - 204
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponsePatientData> getPatientById(@PathVariable Long id) {
+        Patient patient = patientRepository.getReferenceById(id);
+        return ResponseEntity.ok(new ResponsePatientData(patient)); // Status - 200 - success
+    }
 }
