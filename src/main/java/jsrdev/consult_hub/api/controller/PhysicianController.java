@@ -2,7 +2,7 @@ package jsrdev.consult_hub.api.controller;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import jsrdev.consult_hub.api.physician.*;
+import jsrdev.consult_hub.api.domain.physician.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

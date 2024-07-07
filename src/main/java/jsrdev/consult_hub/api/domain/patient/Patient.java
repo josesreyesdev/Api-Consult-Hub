@@ -1,7 +1,7 @@
-package jsrdev.consult_hub.api.patient;
+package jsrdev.consult_hub.api.domain.patient;
 
 import jakarta.persistence.*;
-import jsrdev.consult_hub.api.address.Address;
+import jsrdev.consult_hub.api.domain.address.Address;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

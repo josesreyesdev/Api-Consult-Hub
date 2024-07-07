@@ -1,4 +1,4 @@
-package jsrdev.consult_hub.api.address;
+package jsrdev.consult_hub.api.domain.address;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
