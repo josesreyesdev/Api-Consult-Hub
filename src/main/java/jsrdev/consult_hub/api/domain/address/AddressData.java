@@ -1,4 +1,4 @@
-package jsrdev.consult_hub.api.address;
+package jsrdev.consult_hub.api.domain.address;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;

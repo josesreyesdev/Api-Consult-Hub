@@ -1,7 +1,7 @@
-package jsrdev.consult_hub.api.physician;
+package jsrdev.consult_hub.api.domain.physician;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jsrdev.consult_hub.api.address.AddressData;
+import jsrdev.consult_hub.api.domain.address.AddressData;
 
 public record ResponsePhysicianData(
         Long id,

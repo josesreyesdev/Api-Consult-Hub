@@ -1,4 +1,4 @@
-package jsrdev.consult_hub.api.patient;
+package jsrdev.consult_hub.api.domain.patient;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

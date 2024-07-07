@@ -1,4 +1,4 @@
-package jsrdev.consult_hub.api.physician;
+package jsrdev.consult_hub.api.domain.physician;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
