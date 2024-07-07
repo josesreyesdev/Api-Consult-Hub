@@ -17,7 +17,7 @@ public class ErrorHandler {
 
     // Sirve para indicar que el metodo debe ser llamado en caso exista el tipo de exception
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<Void> errorHandling404() {
+    public ResponseEntity<Void> handlerError404() {
         return ResponseEntity.notFound().build();
     }
 }
