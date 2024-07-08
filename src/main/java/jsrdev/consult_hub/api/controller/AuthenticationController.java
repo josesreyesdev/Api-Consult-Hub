@@ -21,7 +21,7 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping
-    public ResponseEntity userAuthentication(
+    public ResponseEntity<Void> userAuthentication(
             @RequestBody @Valid UserAuthenticationData userAuthenticationData
     ) {
         Authentication token = new UsernamePasswordAuthenticationToken(
