@@ -1,4 +1,4 @@
-package jsrdev.consult_hub.api.infra;
+package jsrdev.consult_hub.api.infra.errors;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
