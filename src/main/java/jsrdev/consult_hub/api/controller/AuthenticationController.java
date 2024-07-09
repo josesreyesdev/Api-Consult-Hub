@@ -1,6 +1,8 @@
 package jsrdev.consult_hub.api.controller;
 
 import jakarta.validation.Valid;
+import jsrdev.consult_hub.api.infra.security.JWTTokenData;
+import jsrdev.consult_hub.api.domain.user.User;
 import jsrdev.consult_hub.api.domain.user.UserAuthenticationData;
 import jsrdev.consult_hub.api.infra.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +27,19 @@ public class AuthenticationController {
     private TokenService tokenService;
 
     @PostMapping
-    public ResponseEntity<String> userAuthentication(
+    public ResponseEntity<JWTTokenData> userAuthentication(
             @RequestBody @Valid UserAuthenticationData userAuthenticationData
     ) {
         Authentication authToken = new UsernamePasswordAuthenticationToken(
                 userAuthenticationData.login(), userAuthenticationData.pass()
         );
 
-        authenticationManager.authenticate(authToken);
-        var JWToken = tokenService.generateToken();
+        var authenticatedUser = authenticationManager.authenticate(authToken);
+        var user = (User) authenticatedUser.getPrincipal();
+        var jwtToken = tokenService.generateToken(user);
 
-        return ResponseEntity.ok(JWToken);
+        return ResponseEntity.ok(new JWTTokenData(jwtToken));
     }
+   
 
 }

@@ -18,7 +18,6 @@ public class SecurityConfiguration {
 
     /* configurar la app a stateless,
     * csrf => es usada para autenticación stateful por eso no lo usamos */
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(csrf -> csrf.disable())
