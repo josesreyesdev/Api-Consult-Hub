@@ -6,11 +6,17 @@ import jakarta.validation.constraints.NotNull;
 import jsrdev.consult_hub.api.domain.address.AddressData;
 
 public record UpdatePatientData(
-        @NotNull Long id,
+
+        @NotNull(message = "Id is required")
+        Long id,
+
         String name,
+
         String avatar,
+
         @JsonProperty("phone_number")
         String phoneNumber,
+
         @JsonProperty("address")
         @Valid AddressData addressData
 ) { }

@@ -4,22 +4,32 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 
 public record AddressData(
-        @NotBlank String street,
+        @NotBlank(message = "Street is required")
+        String street,
 
-        @NotBlank @JsonProperty("state_or_province")
+        @NotBlank(message = "State/Province is required")
+        @JsonProperty("state_or_province")
         String stateOrProvince,
 
-        @NotBlank @JsonProperty("municipality_or_delegation")
+        @NotBlank(message = "Municipally/delegation is required")
+        @JsonProperty("municipality_or_delegation")
         String municipalityOrDelegation,
 
-        @NotBlank String city,
+        @NotBlank(message = "City is required")
+        String city,
 
-        @NotBlank @JsonProperty("zip_code")
+        @NotBlank(message = "Zip_code is required")
+        @JsonProperty("zip_code")
         String zipCode,
 
-        @NotBlank String country,
-        @NotBlank String number,
-        @NotBlank String complement
+        @NotBlank(message = "Country")
+        String country,
+
+        @NotBlank(message = "Number is required")
+        String number,
+
+        @NotBlank(message = "Complement is required")
+        String complement
 ) {
         public AddressData(Address address) {
                 this(
