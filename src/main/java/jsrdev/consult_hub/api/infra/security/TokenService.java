@@ -3,6 +3,8 @@ package jsrdev.consult_hub.api.infra.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import jsrdev.consult_hub.api.domain.user.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -33,5 +35,32 @@ public class TokenService {
 
     private Instant generateExpirationDate() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-06:00"));
+    }
+
+    // validar si el token es del usuario para quien ha sido generado
+    public String getSubject(String token) {
+
+        if (token == null) {
+            throw new RuntimeException("Token es nulo");
+        }
+
+        DecodedJWT verifier = null;
+        try {
+            //cabiar algoritmo o firma correcto y el apiSecret
+            Algorithm algorithm = Algorithm.HMAC256(apiSecret);
+            verifier = JWT.require(algorithm)
+                    .withIssuer("jsr_dev")
+                    .build()
+                    .verify(token);
+
+            verifier.getSubject();
+        } catch (JWTVerificationException exception){
+            System.out.println("Exception JWTVerificationException: "+ exception.getMessage());
+        }
+
+        if (verifier.getSubject() == null) {
+            throw new RuntimeException("Verifier invalid");
+        }
+        return verifier.getSubject();
     }
 }
