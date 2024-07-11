@@ -40,6 +40,10 @@ public class TokenService {
     // validar si el token es del usuario para quien ha sido generado
     public String getSubject(String token) {
 
+        if (token == null) {
+            throw new RuntimeException("Token es nulo");
+        }
+
         DecodedJWT verifier = null;
         try {
             //cabiar algoritmo o firma correcto y el apiSecret
