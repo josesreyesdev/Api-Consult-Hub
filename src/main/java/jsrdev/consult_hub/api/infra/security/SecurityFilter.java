@@ -19,6 +19,17 @@ public class SecurityFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
+        //obtener token del header Authorization
+        String token = request.getHeader("Authorization");
+        System.out.println(token);
+
+        //Evaluar si el token es valido
+        if (token == null || token.isEmpty()) {
+            throw new RuntimeException("Token enviado es invalido");
+        }
+
+        token = token.replace("Bearer ", "");
+
         //paso el request y el response a la cadena de filtros
         filterChain.doFilter(request, response);
 
