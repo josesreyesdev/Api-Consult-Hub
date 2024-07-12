@@ -13,4 +13,5 @@ public record AddScheduleConsultData(
         @JsonProperty("id_physician")
         Long idPhysician,
         @NotNull @Future LocalDateTime date
-) { }
+) {
+}
