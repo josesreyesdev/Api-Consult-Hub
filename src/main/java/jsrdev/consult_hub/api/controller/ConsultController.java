@@ -25,8 +25,8 @@ public class ConsultController {
 
         var showDetailData = new DetailConsultData(
                 consult.getId(),
-                consult.getIdPatient().getId(),
-                consult.getIdPhysician().getId(),
+                consult.getPatient().getId(),
+                consult.getPhysician().getId(),
                 consult.getDate()
         );
 

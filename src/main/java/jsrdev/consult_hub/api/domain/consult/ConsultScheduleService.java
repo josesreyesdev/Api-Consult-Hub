@@ -32,14 +32,25 @@ public class ConsultScheduleService {
         }
 
         var patient = patientRepository.findById(data.idPatient()).get();
-        var physician = choosePhysician(data);
+        var physician = selectPhysician(data);
 
         Consult consult = new Consult(null, patient, physician, data.date());
 
         return consultRepository.save(consult);
     }
 
-    private Physician choosePhysician(AddScheduleConsultData data) {
-        return null;
+    private Physician selectPhysician(AddScheduleConsultData data) {
+
+        // si medico es null elegir aleatoriamente un medico disponible
+        // no permitir agendar citas con medicos inactivos
+
+        if (data.idPhysician() != null) {
+            return physicianRepository.getReferenceById(data.idPhysician());
+        }
+
+        if (data.specialty() == null) {
+            throw new IntegrityValidations("Seleccione una especialidad para el medico");
+        }
+        return physicianRepository.selectSpecialtyPhysicianInDate(data.specialty(), data.date());
     }
 }
