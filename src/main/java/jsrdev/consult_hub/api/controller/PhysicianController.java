@@ -21,6 +21,7 @@ public class PhysicianController {
     private PhysicianRepository physicianRepository;
 
     @PostMapping
+    @Transactional
     public ResponseEntity<ResponsePhysicianData> registerPhysician(
             @RequestBody @Valid RegisterPhysicianData registerPhysicianData,
             UriComponentsBuilder uriComponentsBuilder

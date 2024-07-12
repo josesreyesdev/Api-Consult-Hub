@@ -20,6 +20,7 @@ public class PatientController {
     private PatientRepository patientRepository;
 
     @PostMapping
+    @Transactional
     public ResponseEntity<ResponsePatientData> registerPatient(
             @RequestBody @Valid RegisterPatientData registerPatientData,
             UriComponentsBuilder uriComponentsBuilder
