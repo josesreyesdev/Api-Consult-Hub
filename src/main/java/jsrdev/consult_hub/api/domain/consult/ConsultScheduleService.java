@@ -1,13 +1,11 @@
 package jsrdev.consult_hub.api.domain.consult;
 
-import jsrdev.consult_hub.api.domain.patient.Patient;
 import jsrdev.consult_hub.api.domain.patient.PatientRepository;
 import jsrdev.consult_hub.api.domain.physician.Physician;
 import jsrdev.consult_hub.api.domain.physician.PhysicianRepository;
+import jsrdev.consult_hub.api.infra.exceptions.IntegrityValidations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class ConsultScheduleService {
@@ -23,21 +21,25 @@ public class ConsultScheduleService {
 
     public Consult schedule(AddScheduleConsultData data) {
 
-        Optional<Physician> optionalPhysician = physicianRepository.findById(data.idPhysician());
-        Optional<Patient> optionalPatient = patientRepository.findById(data.idPatient());
-
-        Patient patient = null;
-        if (optionalPatient.isPresent()) {
-            patient = optionalPatient.get();
+        // verificar que el paciente se encuentre en la BD
+        if (patientRepository.findById(data.idPatient()).isEmpty()) {
+            throw new IntegrityValidations("Patient Id not found, Id del Paciente no encontrado");
         }
 
-        Physician physician = null;
-        if (optionalPhysician.isPresent()) {
-            physician = optionalPhysician.get();
+        // verificar si medico es diferente de null y esta o no en la BD
+        if (data.idPhysician() != null && physicianRepository.existsById(data.idPhysician())) {
+            throw new IntegrityValidations("Physician Id not found, Id del Medico no encontrado");
         }
+
+        var patient = patientRepository.findById(data.idPatient()).get();
+        var physician = choosePhysician(data);
 
         Consult consult = new Consult(null, patient, physician, data.date());
 
         return consultRepository.save(consult);
+    }
+
+    private Physician choosePhysician(AddScheduleConsultData data) {
+        return null;
     }
 }
