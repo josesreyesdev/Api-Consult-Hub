@@ -11,4 +11,8 @@ public record DetailConsultData(
         @JsonProperty("id_physician")
         Long idPhysician,
         LocalDateTime date
-) { }
+) {
+        public DetailConsultData(Consult consult) {
+                this(consult.getId(), consult.getPatient().getId(), consult.getPhysician().getId(), consult.getDate());
+        }
+}

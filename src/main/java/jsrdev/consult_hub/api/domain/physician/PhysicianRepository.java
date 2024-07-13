@@ -11,14 +11,20 @@ public interface PhysicianRepository extends JpaRepository<Physician, Long> {
     Page<Physician> findByActiveTrue(Pageable pagination);
 
     @Query("""
-        SELECT p FROM Physician p
-        WHERE p.active = true AND
-        p.specialty = :specialty AND
-        p.id NOT IN(
-            SELECT c.physician.id FROM Consult c WHERE c.date = :date
-        )
-        ORDER BY rand()
-        LIMIT 1
+            SELECT p FROM Physician p
+            WHERE p.active = true AND
+            p.specialty = :specialty AND
+            p.id NOT IN(
+                SELECT c.physician.id FROM Consult c WHERE c.date = :date
+            )
+            ORDER BY rand()
+            LIMIT 1
         """)
     Physician selectSpecialtyPhysicianInDate(Specialty specialty, LocalDateTime date);
+
+    @Query("""
+                SELECT p.active FROM Physician p
+                WHERE p.id = :idPhysician
+            """)
+    Boolean findActiveById(Long idPhysician);
 }
