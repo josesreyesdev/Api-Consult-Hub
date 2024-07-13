@@ -1,5 +1,6 @@
 package jsrdev.consult_hub.api.domain.consult;
 
+import jsrdev.consult_hub.api.domain.patient.Patient;
 import jsrdev.consult_hub.api.domain.patient.PatientRepository;
 import jsrdev.consult_hub.api.domain.physician.Physician;
 import jsrdev.consult_hub.api.domain.physician.PhysicianRepository;
@@ -31,8 +32,13 @@ public class ConsultScheduleService {
             throw new IntegrityValidations("Physician Id not found, Id del Medico no encontrado");
         }
 
-        var patient = patientRepository.findById(data.idPatient()).get();
-        var physician = selectPhysician(data);
+        // Validations
+
+
+
+        Patient patient = patientRepository.findById(data.idPatient()).get();
+
+        Physician physician = selectPhysician(data);
 
         Consult consult = new Consult(null, patient, physician, data.date());
 
@@ -40,7 +46,6 @@ public class ConsultScheduleService {
     }
 
     private Physician selectPhysician(AddScheduleConsultData data) {
-
         // si medico es null elegir aleatoriamente un medico disponible
         // no permitir agendar citas con medicos inactivos
 

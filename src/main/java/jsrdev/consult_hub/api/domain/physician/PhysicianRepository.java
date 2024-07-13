@@ -21,4 +21,10 @@ public interface PhysicianRepository extends JpaRepository<Physician, Long> {
         LIMIT 1
         """)
     Physician selectSpecialtyPhysicianInDate(Specialty specialty, LocalDateTime date);
+
+    @Query("""
+        SELECT p.active FROM Physician p
+        WHERE p.id = :idPhysician
+    """)
+    Boolean findActiveById(Long idPhysician);
 }
