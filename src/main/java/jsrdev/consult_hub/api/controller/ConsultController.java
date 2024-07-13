@@ -23,13 +23,6 @@ public class ConsultController {
 
         var consult = consultScheduleService.schedule(data);
 
-        var showDetailData = new DetailConsultData(
-                consult.getId(),
-                consult.getPatient().getId(),
-                consult.getPhysician().getId(),
-                consult.getDate()
-        );
-
-        return ResponseEntity.ok(showDetailData);
+        return ResponseEntity.ok(consult);
     }
 }

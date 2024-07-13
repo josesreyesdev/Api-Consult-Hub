@@ -26,7 +26,7 @@ public class ConsultScheduleService {
     @Autowired
     List<MedicalConsultationValidator> validators;
 
-    public Consult schedule(AddScheduleConsultData data) {
+    public DetailConsultData schedule(AddScheduleConsultData data) {
 
         // verificar que el paciente se encuentre en la BD
         if (patientRepository.findById(data.idPatient()).isEmpty()) {
@@ -34,21 +34,25 @@ public class ConsultScheduleService {
         }
 
         // verificar si medico es diferente de null y esta o no en la BD
-        if (data.idPhysician() != null && physicianRepository.existsById(data.idPhysician())) {
+        if (data.idPhysician() != null && !physicianRepository.existsById(data.idPhysician())) {
             throw new IntegrityValidations("Physician Id not found, Id del Medico no encontrado");
         }
 
         // Validations
         validators.forEach(v -> v.validate(data));
 
-
         Patient patient = patientRepository.findById(data.idPatient()).get();
 
         Physician physician = selectPhysician(data);
+        if (physician == null) {
+            throw new IntegrityValidations("No hay médicos disponibles para este horario y especialidad");
+        }
 
         Consult consult = new Consult(null, patient, physician, data.date());
 
-        return consultRepository.save(consult);
+        consultRepository.save(consult);
+
+        return new DetailConsultData(consult);
     }
 
     private Physician selectPhysician(AddScheduleConsultData data) {

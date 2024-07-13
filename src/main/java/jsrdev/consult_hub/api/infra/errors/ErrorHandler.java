@@ -1,6 +1,8 @@
 package jsrdev.consult_hub.api.infra.errors;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.ValidationException;
+import jsrdev.consult_hub.api.infra.exceptions.IntegrityValidations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -32,6 +34,17 @@ public class ErrorHandler {
 
         return ResponseEntity.badRequest().body(errors);
     }
+
+    @ExceptionHandler(IntegrityValidations.class)
+    public ResponseEntity<String> handlerErrorIntegrityValidations(IntegrityValidations ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<String> handlerErrorBusinessValidation(ValidationException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
 
     private record DataErrorValidation(String field, String error) {
 
