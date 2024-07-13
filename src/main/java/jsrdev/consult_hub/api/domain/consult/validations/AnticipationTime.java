@@ -2,11 +2,13 @@ package jsrdev.consult_hub.api.domain.consult.validations;
 
 import jakarta.validation.ValidationException;
 import jsrdev.consult_hub.api.domain.consult.AddScheduleConsultData;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class AnticipationTime {
+@Component
+public class AnticipationTime implements MedicalConsultationValidator {
 
     public void validate(AddScheduleConsultData data) {
         // Horario de anticipacion, no puede ser en menos de 30 min la consulta

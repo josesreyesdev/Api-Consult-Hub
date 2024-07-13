@@ -2,10 +2,12 @@ package jsrdev.consult_hub.api.domain.consult.validations;
 
 import jakarta.validation.ValidationException;
 import jsrdev.consult_hub.api.domain.consult.AddScheduleConsultData;
+import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
 
-public class HoursOfOperation {
+@Component
+public class HoursOfOperation implements MedicalConsultationValidator {
 
     public void validate(AddScheduleConsultData data) {
         //verificar que no sea  domingo y solo poder hacer consultas de lunes a sabado de 7 am a 7 pm

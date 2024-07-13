@@ -3,10 +3,14 @@ package jsrdev.consult_hub.api.domain.consult.validations;
 import jakarta.validation.ValidationException;
 import jsrdev.consult_hub.api.domain.consult.AddScheduleConsultData;
 import jsrdev.consult_hub.api.domain.consult.ConsultRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class PatientWithoutConsultation {
+@Component
+public class PatientWithoutConsultation implements MedicalConsultationValidator {
     //patient sin consultas
 
+    @Autowired
     ConsultRepository consultRepository;
 
     public void validate(AddScheduleConsultData data) {

@@ -1,5 +1,6 @@
 package jsrdev.consult_hub.api.domain.consult;
 
+import jsrdev.consult_hub.api.domain.consult.validations.MedicalConsultationValidator;
 import jsrdev.consult_hub.api.domain.patient.Patient;
 import jsrdev.consult_hub.api.domain.patient.PatientRepository;
 import jsrdev.consult_hub.api.domain.physician.Physician;
@@ -7,6 +8,8 @@ import jsrdev.consult_hub.api.domain.physician.PhysicianRepository;
 import jsrdev.consult_hub.api.infra.exceptions.IntegrityValidations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ConsultScheduleService {
@@ -19,6 +22,9 @@ public class ConsultScheduleService {
 
     @Autowired
     private ConsultRepository consultRepository;
+
+    @Autowired
+    List<MedicalConsultationValidator> validators;
 
     public Consult schedule(AddScheduleConsultData data) {
 
@@ -33,7 +39,7 @@ public class ConsultScheduleService {
         }
 
         // Validations
-
+        validators.forEach(v -> v.validate(data));
 
 
         Patient patient = patientRepository.findById(data.idPatient()).get();
