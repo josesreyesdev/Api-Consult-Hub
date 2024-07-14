@@ -1,0 +1,1 @@
+ALTER TABLE consults ADD COLUMN cancellation_reason VARCHAR(200);

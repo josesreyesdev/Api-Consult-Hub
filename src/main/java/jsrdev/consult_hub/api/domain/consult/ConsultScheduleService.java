@@ -1,5 +1,6 @@
 package jsrdev.consult_hub.api.domain.consult;
 
+import jsrdev.consult_hub.api.domain.consult.cancel_validations.CancellationConsultationValidator;
 import jsrdev.consult_hub.api.domain.consult.validations.MedicalConsultationValidator;
 import jsrdev.consult_hub.api.domain.patient.Patient;
 import jsrdev.consult_hub.api.domain.patient.PatientRepository;
@@ -26,6 +27,9 @@ public class ConsultScheduleService {
     @Autowired
     List<MedicalConsultationValidator> validators;
 
+    @Autowired
+    List<CancellationConsultationValidator> cancelValidators;
+
     public DetailConsultData schedule(AddScheduleConsultData data) {
 
         // verificar que el paciente se encuentre en la BD
@@ -48,7 +52,7 @@ public class ConsultScheduleService {
             throw new IntegrityValidations("No hay médicos disponibles para este horario y especialidad");
         }
 
-        Consult consult = new Consult(null, patient, physician, data.date());
+        Consult consult = new Consult(patient, physician, data.date());
 
         consultRepository.save(consult);
 
@@ -67,5 +71,16 @@ public class ConsultScheduleService {
             throw new IntegrityValidations("Seleccione una especialidad para el medico");
         }
         return physicianRepository.selectSpecialtyPhysicianInDate(data.specialty(), data.date());
+    }
+
+    public void cancel(CancelConsultationData data) {
+        if (!consultRepository.existsById(data.idConsult())) {
+            throw new IntegrityValidations("Id consult not fount, Id de consulta, no existe");
+        }
+
+        cancelValidators.forEach( v -> v.validate(data));
+
+        var consult = consultRepository.getReferenceById(data.idConsult());
+        consult.cancel(data.reason());
     }
 }

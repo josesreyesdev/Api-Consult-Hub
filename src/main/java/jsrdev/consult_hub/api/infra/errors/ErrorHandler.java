@@ -35,21 +35,21 @@ public class ErrorHandler {
         return ResponseEntity.badRequest().body(errors);
     }
 
-    @ExceptionHandler(IntegrityValidations.class)
-    public ResponseEntity<String> handlerErrorIntegrityValidations(IntegrityValidations ex) {
-        return ResponseEntity.badRequest().body(ex.getMessage());
-    }
-
-    @ExceptionHandler(ValidationException.class)
-    public ResponseEntity<String> handlerErrorBusinessValidation(ValidationException ex) {
-        return ResponseEntity.badRequest().body(ex.getMessage());
-    }
-
-
     private record DataErrorValidation(String field, String error) {
 
         public DataErrorValidation(FieldError fieldError) {
             this(fieldError.getField(), fieldError.getDefaultMessage());
         }
+    }
+
+    // integrity Validations
+    @ExceptionHandler(IntegrityValidations.class)
+    public ResponseEntity<String> handlerErrorIntegrityValidations403(IntegrityValidations ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<String> handlerErrorBusinessValidation403(ValidationException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }
