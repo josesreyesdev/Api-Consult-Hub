@@ -1,5 +1,6 @@
 package jsrdev.consult_hub.api.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jsrdev.consult_hub.api.domain.patient.*;
@@ -14,6 +15,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/patients")
+@SecurityRequirement(name = "bearer-key")
 public class PatientController {
 
     @Autowired
